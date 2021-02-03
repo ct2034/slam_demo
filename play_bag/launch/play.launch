@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<launch>
+  <!-- <arg name="bagfile" default="$(find play_bag)/bags/2021-01-22-12-11-30.bag"/> -->
+  <arg name="bagfile" default="$(find play_bag)/bags/2021-01-22-12-07-12.bag"/>
+  <node pkg="rosbag" type="play" name="play" args="-l $(arg bagfile)">
+    <remap from="laser_scanner/scan" to="scan"/>
+  </node>
+</launch>
