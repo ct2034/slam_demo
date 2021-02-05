@@ -4,6 +4,7 @@ from sensor_msgs.msg import LaserScan
 
 
 def callback(data):
+    remove_ranges = 120
     global min_angle, max_angle, heard, angles, start_angles, ranges, pub
     rospy.loginfo("I heard %s", data.header.seq)
     min_angle = min(min_angle, data.angle_min)
@@ -22,12 +23,16 @@ def callback(data):
         i = start_angles.index(data.angle_min)
         print(i)
         ranges[i*250:len(data.ranges)+i*250] = data.ranges
+        ranges[:remove_ranges] = [0] * remove_ranges
+        ranges[-remove_ranges:] = [0] * remove_ranges
 
         data.ranges = ranges
         data.angle_min = min_angle
         data.angle_max = max_angle
         data.intensities = []
-        pub.publish(data)
+        data.header.stamp = rospy.get_rostime()
+        if i == len(start_angles) - 1:
+            pub.publish(data)
 
 
 if __name__ == "__main__":
