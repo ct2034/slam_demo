@@ -7,9 +7,9 @@
   <!-- <param name="/use_sim_time" value="true"/> -->
 
   <node pkg="rviz" type="rviz" name="rviz"
-    args="-d $(find hector_slam_launch)/rviz_cfg/mapping_demo.rviz"/>
+    args="-d $(find hector_demo)/config/mapping_demo.rviz"/>
 
-  <include file="$(find hector_mapping)/launch/mapping_default.launch"/>
+  <include file="$(find hector_demo)/launch/mapping_default.launch"/>
 
   <include file="$(find hector_geotiff_launch)/launch/geotiff_mapper.launch">
     <arg name="trajectory_source_frame_name" value="scanmatcher_frame"/>
@@ -19,9 +19,7 @@
   <node pkg="hector_demo" type="scan_combiner.py" name="scan_combiner" output="screen" />
 
   <node pkg="tf" type="static_transform_publisher" name="footprint_broadcaster" 
-    args=".1 0 .1 0 0 0 base_footprint laser_1_scan 100" />
-  <!-- <node pkg="tf" type="static_transform_publisher" name="laser_1_scan_broadcaster" 
-  args="0 0 0 0 0 0 1 base_footprint laser_1_scan 100" output="screen" /> -->
+    args="1 0 .1 0 0 0 /base_footprint /laser_1_scan 100" />
 
   <include file="$(find play_bag)/launch/play.launch" />
 </launch>
